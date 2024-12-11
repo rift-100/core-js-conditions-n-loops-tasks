@@ -320,8 +320,68 @@ function getBalanceIndex(arr) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  let i = 0;
+  let isGrowI = true;
+  let j = 0;
+  let isGrowJ = true;
+  let direction = 'row';
+  let counter = 1;
+  const res = [];
+
+  for (let i1 = 0; i1 < size; i1 += 1) {
+    res[i1] = [];
+    for (let j1 = 0; j1 < size; j1 += 1) {
+      res[i1][j1] = null;
+    }
+  }
+
+  while (counter <= size * size) {
+    let isFirstDirectionChange = true;
+    res[i][j] = counter;
+    counter += 1;
+    if (direction === 'row') {
+      let nextJ = j;
+      if (isGrowJ) {
+        nextJ += 1;
+      } else {
+        nextJ -= 1;
+      }
+      if (res[i]?.[nextJ] !== null) {
+        direction = 'col';
+        isFirstDirectionChange = false;
+        isGrowJ = !isGrowJ;
+        if (isGrowI) {
+          i += 1;
+        } else {
+          i -= 1;
+        }
+      } else {
+        j = nextJ;
+      }
+    }
+    if (direction === 'col' && isFirstDirectionChange) {
+      let nextI = i;
+      if (isGrowI) {
+        nextI += 1;
+      } else {
+        nextI -= 1;
+      }
+      if (res[nextI]?.[j] !== null) {
+        direction = 'row';
+        isGrowI = !isGrowI;
+        if (isGrowJ) {
+          j += 1;
+        } else {
+          j -= 1;
+        }
+      } else {
+        i = nextI;
+      }
+    }
+  }
+
+  return res;
 }
 
 /**
